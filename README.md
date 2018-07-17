@@ -1,6 +1,4 @@
-# Elastic APM 
-
-Application Performance Monitoring with Elastic APM
+# Application Performance Monitoring with Elastic APM
 
 Elastic APM consists of four components:
 
@@ -11,9 +9,14 @@ Elastic APM consists of four components:
 
 ![Elastic APM](https://camo.githubusercontent.com/c4deec730461f148794cf2de2db89b9b389397a5/68747470733a2f2f7777772e656c61737469632e636f2f67756964652f656e2f61706d2f6765742d737461727465642f63757272656e742f61706d2d6172636869746563747572652e706e67)
 
-See
-* https://www.elastic.co/solutions/apm
-* https://www.elastic.co/blog/elastic-apm-java-agent-beta-released
+## Links
+* [Elastic APM](https://www.elastic.co/solutions/apm)
+* [APM Server Reference](https://www.elastic.co/guide/en/apm/server/6.3/index.html)
+* [Elastic APM JavaScript Agent](https://github.com/elastic/apm-agent-js-base)
+* [Elastic APM Java Agent](https://www.elastic.co/blog/elastic-apm-java-agent-beta-released)
+
+
+## Quickstart
 
 Start APM Stack
 ```

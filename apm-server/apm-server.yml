@@ -6,7 +6,10 @@ apm-server:
     # To enable experimental frontend support set this to true.
     enabled: true
 
-setup.dashboards.enabled: false
+setup.dashboards:
+  enabled: true
+  retry:
+    enabled: true
 
 setup.kibana:
   host: "kibana:5601"
