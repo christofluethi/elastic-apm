@@ -1,0 +1,8 @@
+server:
+  port: 5601
+  host: kibana
+  name: kibana
+elasticsearch: 
+  url: "http://elasticsearch:9200"
+  username: "user"
+  password: "pass"

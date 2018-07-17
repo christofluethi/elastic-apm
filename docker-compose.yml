@@ -1,0 +1,61 @@
+version: "3"
+services:
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:6.3.1
+    hostname: apm-server
+    ports:
+      - 8200:8200
+    networks:
+      - apmnet
+    volumes:
+      - "./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml"
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
+    hostname: elasticsearch 
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ELASTIC_PASSWORD=changeme
+      - cluster.name=apm-cluster
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - bootstrap.memory_lock=true
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - apmnet
+    volumes:
+      - "elasticsearch-data:/usr/share/elasticsearch/data"
+    healthcheck:
+      test: ['CMD', 'curl', '-f', '-u', 'elastic:changeme', 'http://localhost:9200']
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.1
+    hostname: kibana
+    ports:
+      - 5601:5601
+    networks:
+      - apmnet
+    volumes:
+      - "./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml"
+    depends_on:
+      - elasticsearch
+
+
+volumes:
+  elasticsearch-data:
+    driver: local
+
+networks:
+  apmnet:
+    driver: bridge
+    ipam:
+      driver: default
