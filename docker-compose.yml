@@ -8,7 +8,7 @@ services:
     networks:
       - apmnet
     volumes:
-      - "./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml"
+      - ./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     depends_on:
       - elasticsearch
 
@@ -45,7 +45,7 @@ services:
     networks:
       - apmnet
     volumes:
-      - "./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml"
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     depends_on:
       - elasticsearch
 
