@@ -20,16 +20,30 @@ Elastic APM consists of four components:
 
 Start APM Stack
 ```
-docker-compose up -d
+docker-compose -p apm up -d
 ```
-Run Java Application with Elastic APM Agent. Download Agent from [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22elastic-apm-agent%22).
+Run Java Application with Elastic APM Agent. Download Agent from [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3Aelastic-apm-agent).
 
+
+Allow to specify `JVM_ARGS` using environment variables for your docker container.
 ```
-java -javaagent:/path/to/elastic-apm-agent-<version>.jar \
-     -Delastic.apm.server_url=http://localhost:8200 \
-     -Delastic.apm.service_name=my-application \
-     -Delastic.apm.application_packages=org.myapplication \
-     -jar my-application.jar
+CMD ["sh", "-c", "java $JVM_ARGS -jar /opt/thorntail.jar $APP_ARGS"]
+```
+
+Sample configuration for docker container
+```
+  info:
+    image: docker.shaped.ch/microprofile-info
+    hostname: info
+    networks:
+      - mpdemo
+    ports:
+      - 8181:8080
+    environment:
+      - JVM_ARGS=-javaagent:/opt/apm-agent.jar -Delastic.apm.server_urls=http://hostname:8200 -Delastic.apm.service_name=info -Delastic.apm.application_packages=ch.shaped
+    volumes:
+      - ./elastic-apm-agent-1.0.1.jar:/opt/apm-agent.jar
+
 ```
 
 Point your browser to `http://localhost:5601` to get to the kibana UI

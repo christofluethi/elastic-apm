@@ -1,12 +1,19 @@
 apm-server:
   host: "apm-server:8200"
-  secret: "d910fe18cd0fde99ee282685cc7046e14a8491df474b85c8"
-
-  frontend:
-    # To enable experimental frontend support set this to true.
+  concurrent_requests: 5
+  rum:
     enabled: true
 
-setup.dashboards.enabled: false
+queue.mem.events: 4096
+max_procs: 4
+
+setup.template:
+  enabled: true
+  name: "apm-server"
+  pattern: "apm-*"
+  settings.index:
+    number_of_shards: 1
+    number_of_replicas: 1
 
 setup.kibana:
   host: "kibana:5601"
@@ -15,30 +22,8 @@ setup.kibana:
   path: "/"
   ssl.enabled: false
          
-# Elasticsearch template settings
-setup.template.settings:
-  index:
-    number_of_shards: 1
-    codec: best_compression
-
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
+  protocol: http
   username: "elastic"
   password: "changeme"
-
-  indices:
-    - index: "apm-%{[beat.version]}-sourcemap"
-      when.contains:
-        processor.event: "sourcemap"
-
-    - index: "apm-%{[beat.version]}-error-%{+yyyy.MM.dd}"
-      when.contains:
-        processor.event: "error"
-
-    - index: "apm-%{[beat.version]}-transaction-%{+yyyy.MM.dd}"
-      when.contains:
-        processor.event: "transaction"
-
-    - index: "apm-%{[beat.version]}-span-%{+yyyy.MM.dd}"
-      when.contains:
-        processor.event: "span"
