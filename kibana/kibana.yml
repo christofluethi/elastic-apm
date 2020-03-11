@@ -3,6 +3,6 @@ server:
   host: kibana
   name: kibana
 elasticsearch: 
-  url: "http://elasticsearch:9200"
+  hosts: "http://elasticsearch:9200"
   username: "elastic"
   password: "changeme"

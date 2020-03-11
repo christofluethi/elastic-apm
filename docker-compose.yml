@@ -1,19 +1,19 @@
 version: "3"
 services:
   apm-server:
-    image: docker.elastic.co/apm/apm-server:6.5.1
+    image: docker.elastic.co/apm/apm-server:7.6.1
     hostname: apm-server
     ports:
       - 8200:8200
     networks:
-      - apmnet
+      - apm
     volumes:
       - ./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     depends_on:
       - elasticsearch
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.1
     hostname: elasticsearch 
     environment:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
@@ -27,7 +27,7 @@ services:
       - 9200:9200
       - 9300:9300
     networks:
-      - apmnet
+      - apm
     volumes:
       - "elasticsearch-data:/usr/share/elasticsearch/data"
     healthcheck:
@@ -38,12 +38,12 @@ services:
         hard: -1
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.5.1
+    image: docker.elastic.co/kibana/kibana:7.6.1
     hostname: kibana
     ports:
       - 5601:5601
     networks:
-      - apmnet
+      - apm
     volumes:
       - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     depends_on:
@@ -55,7 +55,7 @@ volumes:
     driver: local
 
 networks:
-  apmnet:
+  apm:
     driver: bridge
     ipam:
       driver: default
